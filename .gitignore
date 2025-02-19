@@ -137,3 +137,8 @@ dmypy.json
 # Project files
 sketch*
 iclr2025_mbr_uncertainty/sketch*
+
+alias/
+output/
+work/
+*wandb*

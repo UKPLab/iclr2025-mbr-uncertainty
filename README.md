@@ -1,112 +1,129 @@
-<p  align="center">
-  <img src='logo.png' width='200'>
-</p>
+# Uncertainty-Aware Decoding with Minimum Bayes' Risk - ICLR 2025
 
-# iclr2025_mbr_uncertainty
-[![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)
+[![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/search/cs?searchtype=author&query=Daheim,+N)
 [![License](https://img.shields.io/github/license/UKPLab/iclr2025-mbr-uncertainty)](https://opensource.org/licenses/Apache-2.0)
-[![Python Versions](https://img.shields.io/badge/Python-3.9-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
-[![CI](https://github.com/UKPLab/iclr2025-mbr-uncertainty/actions/workflows/main.yml/badge.svg)](https://github.com/UKPLab/iclr2025-mbr-uncertainty/actions/workflows/main.yml)
 
-This is the official template for new Python projects at UKP Lab. It was adapted for the needs of UKP Lab from the excellent [python-project-template](https://github.com/rochacbruno/python-project-template/) by [rochacbruno](https://github.com/rochacbruno).
+This is the repositoy for ``Uncertainty-Aware Decoding with Minimum Bayes' Risk'' (ICLR 2025). The repo template is adapted from [python-project-template](https://github.com/rochacbruno/python-project-template/) by [rochacbruno](https://github.com/rochacbruno).
 
-It should help you start your project and give you continuous status updates on the development through [GitHub Actions](https://docs.github.com/en/actions).
 
-> **Abstract:** The study of natural language processing (NLP) has gained increasing importance in recent years, with applications ranging from machine translation to sentiment analysis. Properly managing Python projects in this domain is of paramount importance to ensure reproducibility and facilitate collaboration. The template provides a structured starting point for projects and offers continuous status updates on development through GitHub Actions. Key features include a basic setup.py file for installation, packaging, and distribution, documentation structure using mkdocs, testing structure using pytest, code linting with pylint, and entry points for executing the program with basic CLI argument parsing. Additionally, the template incorporates continuous integration using GitHub Actions with jobs to check, lint, and test the project, ensuring robustness and reliability throughout the development process.
 
-Contact person: [Federico Tiblias](mailto:federico.tiblias@tu-darmstadt.de) 
+> **Abstract:** Despite their outstanding performance in the majority of scenarios, contemporary language models still occasionally generate undesirable outputs, for example, hallucinated text. While such behaviors have previously been linked to uncertainty, there is a notable lack of methods that actively consider uncertainty during text generation. In this work, we show how Minimum Bayes’ Risk (MBR) decoding, which selects model generations according to an expected risk can be generalized into a principled uncertainty-aware decoding method. In short, we account for model uncertainty during decoding by incorporating a posterior over model parameters into MBR’s computation of expected risk. We show that this modified expected risk is useful for both choosing outputs and deciding when to abstain from generation and can provide improvements without incurring overhead. We benchmark different methods for learning posteriors and show that performance improves with prediction diversity.
+
+Contact person: [Nico Daheim](mailto:nico.daheim@tu-darmstadt.de) 
 
 [UKP Lab](https://www.ukp.tu-darmstadt.de/) | [TU Darmstadt](https://www.tu-darmstadt.de/
 )
 
 Don't hesitate to send us an e-mail or report an issue, if something is broken (and it shouldn't be) or if you have further questions.
 
-
 ## Getting Started
 
-> **DO NOT CLONE OR FORK**
+The repository contains code to run uncertainty-aware MBR, as well as to train models using [huggingface transformers](https://github.com/huggingface/transformers) and [fairseq](https://github.com/facebookresearch/fairseq).
+Both have been adapted in this repository to accustom training with variational learning using the [IVON optimizer](https://openreview.net/forum?id=cXBv07GKvk) for which we use [the official implementation](https://github.com/team-approx-bayes/ivon). Our MBR implementation is based on the [implementation](https://github.com/deep-spin/qaware-decode) of [``Quality-Aware Decoding for Neural Machine Translation''](https://aclanthology.org/2022.naacl-main.100.pdf).
 
-If you want to set up this template:
-
-1. Request a repository on UKP Lab's GitHub by following the standard procedure on the wiki. It will install the template directly. Alternatively, set it up in your personal GitHub account by clicking **[Use this template](https://github.com/rochacbruno/python-project-template/generate)**.
-2. Wait until the first run of CI finishes. Github Actions will commit to your new repo with a "✅ Ready to clone and code" message.
-3. Delete optional files: 
-    - If you don't need automatic documentation generation, you can delete folder `docs`, file `.github\workflows\docs.yml` and `mkdocs.yml`
-    - If you don't want automatic testing, you can delete folder `tests` and file `.github\workflows\tests.yml`
-4. Prepare a virtual environment:
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install .
-pip install -r requirements-dev.txt # Only needed for development
+If you are only interested in experiments based on huggingface, then running
 ```
-5. Adapt anything else (for example this file) to your project. 
+pip install -r requirements.txt
+```
+will install all necessary packages.
 
-6. Read the file [ABOUT_THIS_TEMPLATE.md](ABOUT_THIS_TEMPLATE.md)  for more information about development.
+When using fairseq, the following has to be run in addition:
+```
+cd fairseq/
+pip install --editable ./
+```
+
+The experiments of the paper were organized using the workflow manager [Sisyphus](https://github.com/rwth-i6/sisyphus). If you would like to make use of it, too, then please run:
+```
+git clone git@github.com:rwth-i6/sisyphus.git
+cd sisyphus/
+pip install -r requirements.txt
+cd ..
+mkdir alias
+mkdir output
+mkdir work
+```
+Sisyphus will use the directories as follows:
+  1. `alias`: It's possible to identify aliases for each job to identify it quickly (as a default, a hash is appended to the jobclass name as an identifier), and sisyphus adds a symlink to the job under the alias.
+  2. `output`: `tk.register_output("name", job_class.file)` registers an output under the filename `name` in the output folder that symlinks to `job_class.file`
+  3. `work`: All jobs will be placed here under their hash.
 
 ## Usage
 
-### Using the classes
+### Running experiments using Sisyphus
 
-To import classes/methods of `iclr2025_mbr_uncertainty` from inside the package itself you can use relative imports: 
-
-```py
-from .base import BaseClass # Notice how I omit the package name
-
-BaseClass().something()
+Examples for training with Sisyphus are found in the `config/` folder.
+Running either training using huggingface or fairseq on a Slurm cluster only requires
+```
+cd iclr2025-mbr-uncertainty
+sisyphus/sis --config config config/huggingface.py
+```
+or
+```
+cd iclr2025-mbr-uncertainty
+sisyphus/sis --config config config/fairseq.py
 ```
 
-To import classes/methods from outside the package (e.g. when you want to use the package in some other project) you can instead refer to the package name:
+The examples will run finetuning with LoRA of GEMMA-2B on IWSLT17 and a from-scratch training of a Transformer-base model on IWSLT14, respectively.
+The examples also show how to use our sequence-level MBR methods and single model MBR baselines.
+Token-level posteriors can be used easily in fairseq according to the documentation in their [repo](https://github.com/facebookresearch/fairseq).
 
-```py
-from iclr2025_mbr_uncertainty import BaseClass # Notice how I omit the file name
-from iclr2025_mbr_uncertainty.subpackage import SubPackageClass # Here it's necessary because it's a subpackage
-
-BaseClass().something()
-SubPackageClass().something()
-```
+For each part of the pipeline, Sisyphus Jobs are defined that wrap python scripts for training, decoding, mbr, and evaluation.
 
 ### Using scripts
 
-This is how you can use `iclr2025_mbr_uncertainty` from command line:
+For training, there is an example configuration file in `scripts`. The file can be invoked via:
 
-```bash
-$ python -m iclr2025_mbr_uncertainty
 ```
+cd huggingface/code/
+python3 train.py ../../scripts/train_config.json
+```
+The example will run a similar training to the config in `config/huggingface.py` and train GEMMA-2B on IWSLT17 using LoRA.
+
+Similarly, decoding can be run by 
+```
+cd huggingface/code/
+python3 predict.py ../../scripts/search_config.json
+```
+Here, the config files describe all relevant parameters, such as the model to be used, the dataset, a prompt, random seed, whether to sample during decoding, etc.
+
+For MBR, the script in `mbr/mbr.py` can be used.
+The arguments follow the implementation from [`qaware-decode`](https://github.com/deep-spin/qaware-decode) but there are two important changes:
+
+The first argument is can be the path to one prediction file but also a semi-colon-separated concatenation of multiple paths to prediction files to perform uncertainty-aware decoding via model combination.
+
+Then, using `--flatten` concatenates all these hypothesis sets for each sample, i.e. performs Eq. 9, while not passing the argument will calculate utilities individually for each sample and then sum them, i.e. perform Eq. 10.
+
+For evaluation, the script in `huggingface/code/evaluation.py` can be used. Besides predictions, hypothesis set size, etc. the argument `eval_task` has to be passed which selects the metrics for the given task, for example, rouge for summarization.
 
 ### Expected results
 
-After running the experiments, you should expect the following results:
+After running the jobs in `config/huggingface.py`, the results should closely match our MBR results on IWSLT17 using GEMMA-2B in Table 1, where we average over 4 seeds.
 
-(Feel free to describe your expected results here...)
 
-### Parameter description
+### Code Structure
 
-* `x, --xxxx`: This parameter does something nice
+The code is mainly based on the concept of ''methods'' that are found in the `/code/mbr/methods/` folder which wrap all of the functionality needed to reproduce a certain method:
+  1. Defining and loading Trainer and Data Collator classes
+  2. Loading all datasets
+  3. Defining and applying the preprocessing methods, defined in `/code/mbr/methods/preprocessing`
 
-* ...
+To understand how the method classes are structured it's best to check `code/mbr/methods/base.py` which defines a base class from which all methods inherit.
 
-* `z, --zzzz`: This parameter does something even nicer
-
-## Development
-
-Read the FAQs in [ABOUT_THIS_TEMPLATE.md](ABOUT_THIS_TEMPLATE.md) to learn more about how this template works and where you should put your classes & methods. Make sure you've correctly installed `requirements-dev.txt` dependencies
+The main entry point for the code is `/code/mbr/main.py` that handles loading method classes, models, and running the Trainers.
 
 ## Cite
 
 Please use the following citation:
 
 ```
-@InProceedings{smith:20xx:CONFERENCE_TITLE,
-  author    = {Smith, John},
-  title     = {My Paper Title},
-  booktitle = {Proceedings of the 20XX Conference on XXXX},
-  month     = mmm,
-  year      = {20xx},
-  address   = {Gotham City, USA},
-  publisher = {Association for XXX},
-  pages     = {XXXX--XXXX},
-  url       = {http://xxxx.xxx}
+@inproceedings{
+daheim2025uncertaintyaware,
+title={Uncertainty-Aware Decoding with Minimum Bayes' Risk},
+author={Nico Daheim and Clara Meister and Thomas M{\"o}llenhoff and Iryna Gurevych},
+booktitle={The Thirteenth International Conference on Learning Representations},
+year={2025},
+url={https://openreview.net/forum?id=hPpyUv1XyQ}
 }
 ```
 
