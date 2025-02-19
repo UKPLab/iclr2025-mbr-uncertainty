@@ -3,7 +3,7 @@
 [![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/search/cs?searchtype=author&query=Daheim,+N)
 [![License](https://img.shields.io/github/license/UKPLab/iclr2025-mbr-uncertainty)](https://opensource.org/licenses/Apache-2.0)
 
-This is the repositoy for ``Uncertainty-Aware Decoding with Minimum Bayes' Risk'' (ICLR 2025). The repo template is adapted from [python-project-template](https://github.com/rochacbruno/python-project-template/) by [rochacbruno](https://github.com/rochacbruno).
+This is the repositoy for ``Uncertainty-Aware Decoding with Minimum Bayes' Risk'' (ICLR 2025).
 
 
 
@@ -130,3 +130,6 @@ url={https://openreview.net/forum?id=hPpyUv1XyQ}
 ## Disclaimer
 
 > This repository contains experimental software and is published for the sole purpose of giving additional background details on the respective publication. 
+
+
+The repo template is adapted from [python-project-template](https://github.com/rochacbruno/python-project-template/) by [rochacbruno](https://github.com/rochacbruno).
