@@ -1,13 +1,13 @@
-# Uncertainty-Aware Decoding with Minimum Bayes' Risk - ICLR 2025
+# Uncertainty-Aware Decoding with Minimum Bayes Risk - ICLR 2025
 
 [![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/search/cs?searchtype=author&query=Daheim,+N)
 [![License](https://img.shields.io/github/license/UKPLab/iclr2025-mbr-uncertainty)](https://opensource.org/licenses/Apache-2.0)
 
-This is the repositoy for ``Uncertainty-Aware Decoding with Minimum Bayes' Risk'' (ICLR 2025).
+This is the repositoy for ``Uncertainty-Aware Decoding with Minimum Bayes Risk'' (ICLR 2025).
 
 
 
-> **Abstract:** Despite their outstanding performance in the majority of scenarios, contemporary language models still occasionally generate undesirable outputs, for example, hallucinated text. While such behaviors have previously been linked to uncertainty, there is a notable lack of methods that actively consider uncertainty during text generation. In this work, we show how Minimum Bayes’ Risk (MBR) decoding, which selects model generations according to an expected risk can be generalized into a principled uncertainty-aware decoding method. In short, we account for model uncertainty during decoding by incorporating a posterior over model parameters into MBR’s computation of expected risk. We show that this modified expected risk is useful for both choosing outputs and deciding when to abstain from generation and can provide improvements without incurring overhead. We benchmark different methods for learning posteriors and show that performance improves with prediction diversity.
+> **Abstract:** Despite their outstanding performance in the majority of scenarios, contemporary language models still occasionally generate undesirable outputs, for example, hallucinated text. While such behaviors have previously been linked to uncertainty, there is a notable lack of methods that actively consider uncertainty during text generation. In this work, we show how Minimum Bayes Risk (MBR) decoding, which selects model generations according to an expected risk can be generalized into a principled uncertainty-aware decoding method. In short, we account for model uncertainty during decoding by incorporating a posterior over model parameters into MBR’s computation of expected risk. We show that this modified expected risk is useful for both choosing outputs and deciding when to abstain from generation and can provide improvements without incurring overhead. We benchmark different methods for learning posteriors and show that performance improves with prediction diversity.
 
 Contact person: [Nico Daheim](mailto:nico.daheim@tu-darmstadt.de) 
 
@@ -119,7 +119,7 @@ Please use the following citation:
 ```
 @inproceedings{
 daheim2025uncertaintyaware,
-title={Uncertainty-Aware Decoding with Minimum Bayes' Risk},
+title={Uncertainty-Aware Decoding with Minimum Bayes Risk},
 author={Nico Daheim and Clara Meister and Thomas M{\"o}llenhoff and Iryna Gurevych},
 booktitle={The Thirteenth International Conference on Learning Representations},
 year={2025},
